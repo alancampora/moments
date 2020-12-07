@@ -11,11 +11,13 @@ type Props = {
 type UploadProps = {
   user: User;
   description: string;
+  file: File;
 };
-const onUpload = ({ user, description }: UploadProps, onSuccess: Function) => (
-  e
+
+const onUpload = (
+  { user, description, file }: UploadProps,
+  onSuccess: Function
 ) => {
-  const file = e.target.files[0];
   const storageRef = firebase.storage().ref(`images/${file.name}`);
   const task = storageRef.put(file);
 
@@ -27,7 +29,6 @@ const onUpload = ({ user, description }: UploadProps, onSuccess: Function) => (
     },
     (error) => console.log({ error }),
     async () => {
-      console.log("pasa por aca");
       const downloadURL = await task.snapshot.ref.getDownloadURL();
       const record = {
         avatar: user.photoURL,
@@ -49,6 +50,7 @@ const onUpload = ({ user, description }: UploadProps, onSuccess: Function) => (
 export function Upload({ show, onClose }: Props) {
   const { user } = useContext(UserContext);
   const [description, setDescription] = useState<string>("");
+  const [file, setFile] = useState<File>();
   return (
     user && (
       <Modal
@@ -57,31 +59,39 @@ export function Upload({ show, onClose }: Props) {
         actions={[
           {
             label: "Upload",
+            onClick: () => onUpload({ user, description, file }, onClose),
+          },
+          {
+            label: "Close",
             onClick: onClose,
           },
         ]}
       >
-        <>
+        <div className="m-2">
           <div>This is your place to upload a new image!</div>
-          <div className="m-4">
+          <div className="">
+            <textarea
+              className="bg-yellow-50 p-4 m-4"
+              id="description"
+              rows={3}
+              cols={50}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="p-4">
             <div className="p-2">
               <label htmlFor="file">Upload: </label>
               <input
                 id="file"
                 type="file"
-                onChange={onUpload({ user, description }, onClose)}
-              />
-            </div>
-            <div className="p-2">
-              <label htmlFor="description">Description: </label>
-              <input
-                id="description"
-                type="text"
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setFile(file);
+                }}
               />
             </div>
           </div>
-        </>
+        </div>
       </Modal>
     )
   );
