@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { Login, Feed, Upload } from "../components";
-import {  UserContext } from "../providers";
+import { UserContext } from "../providers";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -58,12 +58,7 @@ export default function Home() {
           onClose={() => setShowUploadModal(false)}
           show={showUploadModal}
         />
-        <Feed
-          onLogout={logout}
-          user={user}
-          onUpload={() => setShowUploadModal(true)}
-        />
-        ;
+        <Feed onLogout={logout} onUpload={() => setShowUploadModal(true)} />;
       </div>
     );
   }
