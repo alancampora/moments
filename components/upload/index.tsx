@@ -44,7 +44,7 @@ const onUpload = (
         const newUpload = dbRef.push();
         newUpload.set(record);
       } catch (e) {
-        console.log(`error: ${error}`);
+        console.log(`error: ${e}`);
       } finally {
         onSuccess();
       }
@@ -68,7 +68,6 @@ export function Upload({ show, onClose }: Props) {
             onClick: () =>
               onUpload({ user, description, file }, () => {
                 setDescription("");
-                console.log({fileRef})
                 setFile(null);
                 onClose();
               }),
