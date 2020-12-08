@@ -60,7 +60,7 @@ export function Upload({ show, onClose }: Props) {
   return (
     user && (
       <Modal
-        title={`Upload New Moment ${user.displayName}`}
+        title={`Share with your amigues ${user.displayName}`}
         show={show}
         actions={[
           {
@@ -79,30 +79,22 @@ export function Upload({ show, onClose }: Props) {
         ]}
       >
         <div className="m-2">
-          <div>This is your place to upload a new image!</div>
-          <div className="">
+          <div className="my-4">
             <textarea
-              className="bg-yellow-50 p-4 m-4"
+              className="w-full p-4 bg-yellow-50 resize-none border rounded-md"
               id="description"
-              rows={3}
-              cols={50}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div className="p-4">
-            <div className="p-2">
-              <label htmlFor="file">Upload: </label>
-              <input
-                ref={fileRef}
-                id="file"
-                type="file"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  setFile(file);
-                }}
-              />
-            </div>
-          </div>
+          <input
+            ref={fileRef}
+            id="file"
+            type="file"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setFile(file);
+            }}
+          />
         </div>
       </Modal>
     )
