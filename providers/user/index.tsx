@@ -18,7 +18,7 @@ const initialState: UserContextT = {
 const UserContext = React.createContext(initialState);
 
 function UserProvider(props) {
-  const [user, setUser] = useState({ user: { displayName: "" } });
+  const [user, setUser] = useState(initialState.user);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
