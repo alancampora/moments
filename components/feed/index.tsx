@@ -22,7 +22,7 @@ export function Feed({ onLogout, onUpload }: Props) {
       <header className="bg-white text-gray-700 body-font fixed w-full z-1 top-0 left-0 shadow-sm">
         <div className="flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            <span className="ml-3 text-xl">Moments</span>
+            <span className="ml-3 text-xl">Amigues</span>
           </a>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <img className="mr-4 w-8 h-8 rounded-full" src={user?.photoURL}></img>
