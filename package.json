@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.9.6",
     "@types/firebase": "^3.2.1",
     "autoprefixer": "^10.0.4",
     "firebase": "^8.1.2",

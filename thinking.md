@@ -3,3 +3,6 @@ World Feed
         -> User
         -> Description 
         -> Place
+        -> Image
+    -> Images
+        
