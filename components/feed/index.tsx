@@ -15,8 +15,6 @@ export function Feed({ onLogout, onUpload }: Props) {
   const dbRef = db.ref("uploads");
   const [snapshots, loading, error] = useList(dbRef);
 
-  if (loading) return <div>Loading Feed</div>;
-  if (error) return <div>"There was an error while loading feed"</div>;
   return (
     <div className="bg-gray-50">
       <header className="bg-white text-gray-700 body-font fixed w-full z-1 top-0 left-0 shadow-sm">
@@ -25,7 +23,10 @@ export function Feed({ onLogout, onUpload }: Props) {
             <span className="ml-3 text-xl">Amigues</span>
           </a>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <img className="mr-4 w-8 h-8 rounded-full" src={user?.photoURL}></img>
+            <img
+              className="mr-4 w-8 h-8 rounded-full"
+              src={user?.photoURL}
+            ></img>
             <button className="mr-4" onClick={onUpload}>
               <svg
                 className="w-8"
@@ -63,15 +64,16 @@ export function Feed({ onLogout, onUpload }: Props) {
         </div>
       </header>
 
-      <div id="separator" className="py-4"></div>
+      <div id="separator" className="my-16"></div>
 
-      <section className="text-gray-700 body-font max-w-614 container mx-auto max-width-614px">
+      <section className="text-gray-700 body-font max-w-614 container mx-auto">
         <div className="flex flex-col items-center">
           {snapshots.map((v, index) => {
             const { username, avatar, description, image } = v.val();
             return (
               <div key={index}>
                 <Card
+                  isLoading={loading}
                   description={description}
                   image={image}
                   avatar={avatar}

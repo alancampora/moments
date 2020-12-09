@@ -1,8 +1,9 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Modal } from "../modal";
 import { UserContext } from "../../providers";
 import onUpload from "./helpers/on-upload";
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import { Progress } from "../progress";
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -13,13 +14,12 @@ type Props = {
 export function Upload({ show, onClose }: Props) {
   const { user } = useContext(UserContext);
   const [description, setDescription] = useState<string>("");
+  const [completed, setCompleted] = useState<number>(0);
   const [file, setFile] = useState<File>();
   const fileRef = useRef();
 
   const load = async () => {
-    console.log("load");
     await ffmpeg.load();
-    console.log("ready");
   };
 
   useEffect(() => {
@@ -35,11 +35,15 @@ export function Upload({ show, onClose }: Props) {
           {
             label: "Upload",
             onClick: async () =>
-              await onUpload({ user, description, file }, () => {
-                setDescription("");
-                setFile(null);
-                onClose();
-              }, ffmpeg),
+              await onUpload(
+                { user, description, file, setCompleted },
+                () => {
+                  setDescription("");
+                  setFile(null);
+                  onClose();
+                },
+                ffmpeg
+              ),
           },
           {
             label: "Close",
@@ -64,6 +68,7 @@ export function Upload({ show, onClose }: Props) {
               setFile(file);
             }}
           />
+          {!!completed && <Progress completed={completed} />}
         </div>
       </Modal>
     )

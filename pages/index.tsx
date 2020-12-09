@@ -36,11 +36,7 @@ export default function Home() {
   }, [user]);
 
   if (loading) {
-    return (
-      <div>
-        <p>Initialising User...</p>
-      </div>
-    );
+    return <p>Loading</p>;
   }
 
   if (error) {

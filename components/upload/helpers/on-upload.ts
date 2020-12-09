@@ -6,6 +6,7 @@ type UploadProps = {
   user: User;
   description: string;
   file: File;
+  setCompleted: Function
 };
 
 const convertToGif = async (video, ffmpeg) => {
@@ -32,7 +33,7 @@ const convertToGif = async (video, ffmpeg) => {
 };
 
 export default async function onUpload(
-  { user, description, file }: UploadProps,
+  { user, description, file, setCompleted }: UploadProps,
   onSuccess: Function,
   ffmpeg: FFmpeg
 ) {
@@ -49,8 +50,8 @@ export default async function onUpload(
   task.on(
     "state_changed",
     (taskData) => {
-      const percentage = taskData.bytesTransferred / taskData.totalBytes;
-      console.log({ percentage });
+      const percentage = (taskData.bytesTransferred / taskData.totalBytes) * 100;
+      setCompleted(percentage)
     },
     (error) => console.log({ error }),
     async () => {
@@ -68,6 +69,7 @@ export default async function onUpload(
 
         const newUpload = dbRef.push();
         newUpload.set(record);
+        setCompleted(0)
       } catch (e) {
         console.log(`error: ${e}`);
       } finally {
